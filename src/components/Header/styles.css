@@ -1,0 +1,9 @@
+.header-container {
+    min-height: 150px;
+    grid-area: h;
+    background-color: aquamarine;
+}
+
+.header__logo {
+    width: 50px;
+}

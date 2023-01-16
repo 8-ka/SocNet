@@ -1,0 +1,24 @@
+.app-wrapper {
+  display: grid;
+  grid-template-areas: "h h" "sb mp" "f f";
+  grid-template-rows: 200px 1fr;
+  grid-template-columns: 2fr 10fr;
+  grid-gap: 10px;
+  box-sizing: border-box;
+}
+
+.main-content {
+  grid-area: mp;
+  background-color: antiquewhite;
+}
+
+.sidebar {
+  grid-area: sb;
+  background-color: bisque;
+}
+
+.footer {
+  grid-area: f;
+  background-color: burlywood;
+}
+  
