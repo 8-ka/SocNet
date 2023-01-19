@@ -1,19 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './styles.css'
 
 const ProfileStatus = (props) => {
-  const { userStatus } = props;
+  const { userStatus, userUpdateStatus } = props;
 
   const [editMode, setEditMode] = useState(false);
   const [status, setStatus] = useState(userStatus);
 
-  // componentDidUpdate(prevProps) {
-  //   if (prevProps.userStatus !== this.props.userStatus) {
-  //     this.setState({
-  //       userStatus: this.props.userStatus,
-  //     })
-  //   }
-  // }
+  useEffect(() => {
+    setStatus(userStatus);
+  }, [userStatus])
 
   const handleSetStatus = () => {
     setEditMode(true);
@@ -21,7 +17,7 @@ const ProfileStatus = (props) => {
 
   const onUpdateInput = () => {
     setEditMode(false);
-    props.userUpdateStatus(status);
+    userUpdateStatus(status);
   }
 
   const onStatusChange = (e) => {

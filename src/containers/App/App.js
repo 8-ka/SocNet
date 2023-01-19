@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import HeaderContainer from '../HeaderContainer/HeaderContainer';
 import Sidebar from '../../components/Sidebar/Sidebar';
@@ -17,7 +17,7 @@ import withRouter from '../../hoc/withRouter/withRouter';
 import { appReducers } from '../../data/app_container';
 import Loader from '../../components/Loader/Loader';
 
-class App extends Component {
+class App extends PureComponent {
   componentDidMount() {
     this.props.setInitializedAppThunkCreator();
   }

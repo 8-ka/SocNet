@@ -1,25 +1,15 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import Paginator from '../Paginator/Paginator';
 import defaultAvatar from './img/default-avatar.jpg';
 import './styles.css';
 
 const Users = (props) => {
   const { totalCount, pageSize, onClickCurrentPage, users, isFollowingProgress, followThunkCreator, unFollowThunkCreator } = props;
 
-  const totalPages = Math.ceil(totalCount / pageSize);
-
-  let pages = [];
-  for (let i = 1; i <= totalPages; i++) {
-    pages.push(i);
-  }
-
   return (
     <div>
-      <div>
-        {pages.map((page, index) =>
-          <span key={index.toString()} onClick={() => onClickCurrentPage(page)}>{page}</span>
-        )}
-      </div>
+      <Paginator totalCount={totalCount} pageSize={pageSize} onClickCurrentPage={onClickCurrentPage} />
       {users.map((user, id) =>
         <div key={id.toString()}>
           <div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { Navigate } from "react-router-dom";
 
@@ -9,7 +9,7 @@ const mapStateToPropsForRedirect = (state) => {
 }
 
 export const withAuthRedirect = (Component) => {
-  class RedirectContainer extends React.Component {
+  class RedirectContainer extends PureComponent {
     render() {
       if (!this.props.isAuth) {
         return <Navigate to="/login" />;

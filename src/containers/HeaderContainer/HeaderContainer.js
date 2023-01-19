@@ -1,10 +1,10 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import Header from "../../components/Header/Header";
 import { authReducers } from "../../data/auth_container";
 
-class HeaderContainer extends Component {
+class HeaderContainer extends PureComponent {
   render() {
     return <Header {...this.props} />
   }

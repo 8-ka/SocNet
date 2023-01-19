@@ -1,18 +1,21 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import Loader from './components/Loader/Loader';
 import './index.css';
-import App from './containers/App/App';
 import store from './redux/store';
 
+const App = React.lazy(() => import('./containers/App/App'));
 
 const root = createRoot(document.getElementById('root'));
 
 root.render(
   <BrowserRouter>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <Suspense fallback={<Loader />}>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </Suspense>
   </BrowserRouter>
 );

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
 import Users from "../../components/Users/Users";
@@ -6,7 +6,7 @@ import { usersActions, usersReducers, usersSelectors } from "../../data/users_co
 import Loader from "../../components/Loader/Loader";
 import { withAuthRedirect } from "../../hoc/withAuthRedirect/withAuthRedirect";
 
-class UsersContainer extends Component {
+class UsersContainer extends PureComponent {
   componentDidMount() {
     this.props.getUsersThunkCreator(this.props.currentPage, this.props.pageSize);
   }

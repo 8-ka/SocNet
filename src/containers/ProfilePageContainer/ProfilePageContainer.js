@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
 import withRouter from "../../hoc/withRouter/withRouter";
@@ -6,7 +6,7 @@ import ProfilePage from "../../components/ProfilePage/ProfilePage";
 import { profileReducers, profileSelectors } from "../../data/profile_container";
 import { withAuthRedirect } from "../../hoc/withAuthRedirect/withAuthRedirect";
 
-class ProfilePageContainer extends Component {
+class ProfilePageContainer extends PureComponent {
   componentDidMount() {
     let userId = this.props.router.params.userId || 27296;
 

@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import './styles.css'
 
-class ProfileStatus extends Component {
+class ProfileStatus extends PureComponent {
   state = {
     editMode: false,
     userStatus: this.props.userStatus,
