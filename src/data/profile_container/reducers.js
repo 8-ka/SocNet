@@ -36,6 +36,14 @@ export const profilePageReducer = (state = initialStateProfilePage, action) => {
         ...state,
         userStatus: action.userStatus,
       }
+    case ActionTypes.SAVE_AVATAR_SUCCESS:
+      return {
+        ...state,
+        userProfile: {
+          ...state.userProfile,
+          photos: action.photos
+        },
+      }
     default:
       return state;
   }
@@ -43,21 +51,29 @@ export const profilePageReducer = (state = initialStateProfilePage, action) => {
 
 export const getUserProfileThunkCreator = (userId) => (dispatch) => {
   profileAPI.getProfile(userId)
-   .then(response =>
-    dispatch(profileActions.setUserProfile(response.data)));
+    .then(response =>
+      dispatch(profileActions.setUserProfile(response.data)));
 }
 
 export const getUserStatusThunkCreator = (userId) => (dispatch) => {
   profileAPI.getStatus(userId)
-   .then(response => 
-    dispatch(profileActions.setUserStatus(response.data)));
+    .then(response =>
+      dispatch(profileActions.setUserStatus(response.data)));
 }
 
 export const updateUserStatusThunkCreator = (status) => (dispatch) => {
   profileAPI.updateStatus(status)
     .then(response => {
-      if(!response.data.resultCode) {
+      if (!response.data.resultCode) {
         dispatch(profileActions.setUserStatus(status))
       }
     })
+}
+
+export const saveAvatarThunkCreator = (file) => async (dispatch) => {
+  const response = await profileAPI.saveAvatar(file)
+
+  if (!response.data.resultCode) {
+    dispatch(profileActions.saveAvatarSuccess(response.data.data.photos))
+  }
 }

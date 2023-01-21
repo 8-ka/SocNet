@@ -3,6 +3,7 @@ export const ActionTypes = {
   UPDATE_POST: 'UPDATE-POST',
   SET_USER_PROFILE: 'SET_USER_PROFILE',
   SET_USER_STATUS: 'SET_USER_STATUS',
+  SAVE_AVATAR_SUCCESS: 'SAVE_AVATAR_SUCCESS',
 }
 
 export const addPost = (newPostText) => ({
@@ -23,4 +24,9 @@ export const setUserProfile = (userProfile) => ({
 export const setUserStatus = (userStatus) => ({
   type: ActionTypes.SET_USER_STATUS,
   userStatus,
+})
+
+export const saveAvatarSuccess = (photos) => ({
+  type: ActionTypes.SAVE_AVATAR_SUCCESS,
+  photos,
 })

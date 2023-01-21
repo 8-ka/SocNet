@@ -4,11 +4,11 @@ import ProfileInfo from "./components/ProfileInfo/ProfileInfo";
 import './styles.css'
 
 const ProfilePage = (props) => {
-  const { className, userProfile, userStatus, userUpdateStatus } = props;
+  const { className, userProfile, userStatus, userUpdateStatus, isOwner, saveAvatar } = props;
 
   return (
     <div className={className}>
-      <ProfileInfo userProfile={userProfile} userStatus={userStatus} userUpdateStatus={userUpdateStatus} />
+      <ProfileInfo isOwner={isOwner} userProfile={userProfile} userStatus={userStatus} userUpdateStatus={userUpdateStatus} saveAvatar={saveAvatar}/>
       <PostsContainer />
     </div>
   );
