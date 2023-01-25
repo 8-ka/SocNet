@@ -6,27 +6,27 @@ import { authReducers } from "../../data/auth_container";
 import './styles.css'
 
 const LoginPage = (props) => {
-  const { setLogIn, isAuth } = props;
+  const { setLogIn, isAuth, captchaUrl } = props;
 
   const onSubmit = (formData) => {
-    const { email, password, remember } = formData;
-    setLogIn(email, password, remember);
+    const { email, password, remember, captcha } = formData;
+    setLogIn(email, password, remember, captcha);
   }
 
-  if(isAuth) {
+  if (isAuth) {
     return <Navigate to='/profile' />;
   }
 
   return (
     <div>
       <h1>Login</h1>
-      <LoginReduxForm onSubmit={onSubmit} />
+      <LoginReduxForm onSubmit={onSubmit} captchaUrl={captchaUrl} />
     </div>
   )
 }
 
 const LoginForm = (props) => {
-  const { handleSubmit, error } = props;
+  const { handleSubmit, error, captchaUrl } = props;
   return (
     <form onSubmit={handleSubmit}>
       {error && <div className='error'>{error}</div>}
@@ -34,14 +34,19 @@ const LoginForm = (props) => {
         <Field placeholder="email" component='input' name="email" />
       </div>
       <div>
-        <Field placeholder="password" component='input' type='password' name="password"/>
+        <Field placeholder="password" component='input' type='password' name="password" />
       </div>
       <div>
-        <Field component='input' type='checkbox' name="remember"/>remember me
+        <Field component='input' type='checkbox' name="remember" />remember me
       </div>
       <div>
         <button>{'submit'}</button>
       </div>
+      {captchaUrl &&
+        <div>
+          <img src={captchaUrl} alt='captcha' />
+          <Field component='input' name='captcha' />
+        </div>}
     </form>
   )
 }
@@ -51,19 +56,24 @@ const LoginReduxForm = reduxForm({
 })(LoginForm)
 
 const mapStateToProps = (state) => {
+  const { auth } = state;
   return {
-    isAuth: state.auth.isAuth,
+    isAuth: auth.isAuth,
+    captchaUrl: auth.captchaUrl,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setLogIn: (email, password, remember) => {
-      dispatch(authReducers.setLogInThunkCreator(email, password, remember));
+    setLogIn: (email, password, remember, captcha) => {
+      dispatch(authReducers.setLogInThunkCreator(email, password, remember, captcha));
     },
     setLogOut: () => {
       dispatch(authReducers.setLogOutThunkCreator());
     },
+    getCaptchaUrl: () => {
+      dispatch(authReducers.getCaptchaUrlThunkCreator());
+    }
   }
 }
 

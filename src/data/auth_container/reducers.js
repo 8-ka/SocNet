@@ -1,6 +1,6 @@
 import { stopSubmit } from "redux-form";
 import { authActions } from ".";
-import { authAPI } from "../../api";
+import { authAPI, securityAPI } from "../../api";
 import { ActionTypes } from "./actions";
 
 const initialState = {
@@ -8,6 +8,7 @@ const initialState = {
   login: null,
   email: null,
   isAuth: false,
+  captchaUrl: null,
 }
 
 export const authReducer = (state = initialState, action) => {
@@ -16,6 +17,11 @@ export const authReducer = (state = initialState, action) => {
       return {
         ...state,
         ...action.payload,
+      }
+    case ActionTypes.GET_CAPTCHA_URL:
+      return {
+        ...state,
+        captchaUrl: action.captchaUrl,
       }
     default:
       return state;
@@ -32,15 +38,20 @@ export const getAuthMeThunkCreator = () => (dispatch) => {
     });
 }
 
-export const setLogInThunkCreator = (email, password, remember) => (dispatch) => {
-  authAPI.setLogIn(email, password, remember)
+export const setLogInThunkCreator = (email, password, remember, captcha) => (dispatch) => {
+  authAPI.setLogIn(email, password, remember, captcha)
     .then(response => {
       console.log(response)
       if (!response.data.resultCode) {
         dispatch(getAuthMeThunkCreator());
+      } else {
+        if (response.data.resultCode === 10) {
+          dispatch(getCaptchaUrlThunkCreator());
+        }
+        let message = response.data.messages[0] || 'Something went wrong';
+        dispatch(stopSubmit('loginForm', { _error: message }))
       }
-      let message = response.data.messages[0] || 'Something went wrong';
-      dispatch(stopSubmit('loginForm', { _error: message }))
+
     });
 }
 
@@ -51,4 +62,11 @@ export const setLogOutThunkCreator = () => (dispatch) => {
         dispatch(authActions.setUserData(null, null, null, false));
       }
     });
+}
+
+export const getCaptchaUrlThunkCreator = () => async (dispatch) => {
+  const response = await securityAPI.getCaptchaUrl();
+  const captchaUrl = response.data.url;
+
+  dispatch(authActions.getCaptchaUrlSuccess(captchaUrl));
 }
