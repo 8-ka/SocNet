@@ -1,9 +1,18 @@
-import { stopSubmit } from "redux-form";
 import { authActions } from ".";
 import { authAPI, securityAPI } from "../../api";
 import { ActionTypes } from "./actions";
 
-const initialState = {
+const { stopSubmit } = require('redux-form');
+
+type InitialStateType ={
+  id: string | null,
+  login: string | null,
+  email: string | null,
+  isAuth: boolean | false,
+  captchaUrl:string | null,
+}
+
+const initialState: InitialStateType = {
   id: null,
   login: null,
   email: null,
@@ -11,7 +20,7 @@ const initialState = {
   captchaUrl: null,
 }
 
-export const authReducer = (state = initialState, action) => {
+export const authReducer = (state: InitialStateType = initialState, action: any) => {
   switch (action.type) {
     case ActionTypes.SET_USER_DATA:
       return {
@@ -28,17 +37,16 @@ export const authReducer = (state = initialState, action) => {
   }
 }
 
-export const getAuthMeThunkCreator = () => (dispatch) => {
-  return authAPI.getAuth()
-    .then(response => {
-      if (!response.data.resultCode) {
-        let { id, login, email } = response.data.data;
-        dispatch(authActions.setUserData(id, login, email, true));
-      }
-    });
+export const getAuthMeThunkCreator = () => async (dispatch: any) => {
+  const response = await authAPI.getAuth();
+  
+  if (!response.data.resultCode) {
+    let { id, login, email } = response.data.data;
+    dispatch(authActions.setUserData(id, login, email, true));
+  }
 }
 
-export const setLogInThunkCreator = (email, password, remember, captcha) => (dispatch) => {
+export const setLogInThunkCreator = (email: string, password: string, remember: boolean, captcha: string) => (dispatch: any) => {
   authAPI.setLogIn(email, password, remember, captcha)
     .then(response => {
       console.log(response)
@@ -55,7 +63,7 @@ export const setLogInThunkCreator = (email, password, remember, captcha) => (dis
     });
 }
 
-export const setLogOutThunkCreator = () => (dispatch) => {
+export const setLogOutThunkCreator = () => (dispatch: any) => {
   authAPI.setLogOut()
     .then(response => {
       if (!response.data.resultCode) {
@@ -64,7 +72,7 @@ export const setLogOutThunkCreator = () => (dispatch) => {
     });
 }
 
-export const getCaptchaUrlThunkCreator = () => async (dispatch) => {
+export const getCaptchaUrlThunkCreator = () => async (dispatch: any) => {
   const response = await securityAPI.getCaptchaUrl();
   const captchaUrl = response.data.url;
 

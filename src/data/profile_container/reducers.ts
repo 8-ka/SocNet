@@ -2,7 +2,18 @@ import { profileActions } from ".";
 import { profileAPI } from "../../api";
 import { ActionTypes } from "./actions"
 
-const initialStateProfilePage = {
+type PostsType = {
+  id: number,
+  post: string,
+}
+
+type InitialStateType = {
+  posts: Array<PostsType>,
+  userProfile: any,
+  userStatus: string | null,
+}
+
+const initialStateProfilePage: InitialStateType = {
   posts: [
     { id: 1, post: 'Hi, there!' },
     { id: 2, post: 'Ooops' },
@@ -14,7 +25,7 @@ const initialStateProfilePage = {
   userStatus: '',
 }
 
-export const profilePageReducer = (state = initialStateProfilePage, action) => {
+export const profilePageReducer = (state: InitialStateType = initialStateProfilePage, action: any) => {
   switch (action.type) {
     case ActionTypes.ADD_POST:
       return {
@@ -49,19 +60,19 @@ export const profilePageReducer = (state = initialStateProfilePage, action) => {
   }
 }
 
-export const getUserProfileThunkCreator = (userId) => (dispatch) => {
+export const getUserProfileThunkCreator = (userId: string) => (dispatch: any) => {
   profileAPI.getProfile(userId)
     .then(response =>
       dispatch(profileActions.setUserProfile(response.data)));
 }
 
-export const getUserStatusThunkCreator = (userId) => (dispatch) => {
+export const getUserStatusThunkCreator = (userId: string) => (dispatch: any) => {
   profileAPI.getStatus(userId)
     .then(response =>
       dispatch(profileActions.setUserStatus(response.data)));
 }
 
-export const updateUserStatusThunkCreator = (status) => (dispatch) => {
+export const updateUserStatusThunkCreator = (status: string) => (dispatch: any) => {
   profileAPI.updateStatus(status)
     .then(response => {
       if (!response.data.resultCode) {
@@ -70,7 +81,7 @@ export const updateUserStatusThunkCreator = (status) => (dispatch) => {
     })
 }
 
-export const saveAvatarThunkCreator = (file) => async (dispatch) => {
+export const saveAvatarThunkCreator = (file: any) => async (dispatch: any) => {
   const response = await profileAPI.saveAvatar(file)
 
   if (!response.data.resultCode) {

@@ -3,12 +3,12 @@ export const ActionTypes = {
     SEND_MESSAGE: 'SEND-MESSAGE',
 }
 
-export const sendMessageActionCreator = (newMessageBody) => ({
+export const sendMessageActionCreator = (newMessageBody: string) => ({
     type: ActionTypes.SEND_MESSAGE,
     newMessageBody
 })
 
-export const updateNewMessageBodyActionCreator = (text) => ({
+export const updateNewMessageBodyActionCreator = (text: string) => ({
     type: ActionTypes.UPDATE_NEW_MESSAGE_BODY,
     text,
 })

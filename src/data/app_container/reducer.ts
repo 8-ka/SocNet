@@ -2,11 +2,15 @@ import { appActions } from ".";
 import { authReducers } from "../auth_container";
 import { ActionTypes } from "./action"
 
-const initialState = {
+type InitialStateType = {
+  initialized: boolean,
+}
+
+const initialState: InitialStateType = {
   initialized: false,
 }
 
-export const appReducer = (state = initialState, action) => {
+export const appReducer = (state = initialState, action: any): InitialStateType => {
   switch (action.type) {
     case ActionTypes.SET_INITIALIZED:
       return {
@@ -18,7 +22,7 @@ export const appReducer = (state = initialState, action) => {
   }
 }
 
-export const setInitializedAppThunkCreator = () => (dispatch) => {
+export const setInitializedAppThunkCreator = () => (dispatch: any) => {
   dispatch(authReducers.getAuthMeThunkCreator())
     .then(() => {
       dispatch(appActions.setInitialized())

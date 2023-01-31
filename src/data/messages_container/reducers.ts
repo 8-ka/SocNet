@@ -1,6 +1,20 @@
 import { ActionTypes } from "./actions"
 
-const initialStateMessagesPage = {
+type InitialStateType = {
+  users: Array<UsersType>,
+  messages: Array<MessagesTypes>,
+}
+
+type UsersType = {
+  name: string,
+}
+
+type MessagesTypes = {
+  id: number,
+  message: string,
+}
+
+const initialStateMessagesPage: InitialStateType = {
   users: [
     { name: 'Joe' },
     { name: 'Jack' },
@@ -16,7 +30,7 @@ const initialStateMessagesPage = {
 }
 
 
-export const messagesPageReducer = (state = initialStateMessagesPage, action) => {
+export const messagesPageReducer = (state: InitialStateType = initialStateMessagesPage, action: any) => {
   switch (action.type) {
     case ActionTypes.SEND_MESSAGE:
       return {
