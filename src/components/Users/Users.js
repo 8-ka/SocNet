@@ -1,15 +1,43 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { usersSelectors } from '../../data/users_container';
+import { getUsersThunkCreator } from '../../data/users_container/reducers';
 import Paginator from '../Paginator/Paginator';
+import UserSearchForm from '../UsersSearchForm/UserSearchForm';
 import defaultAvatar from './img/default-avatar.jpg';
 import './styles.css';
 
-const Users = (props) => {
-  const { totalCount, pageSize, onClickCurrentPage, users, isFollowingProgress, followThunkCreator, unFollowThunkCreator } = props;
+export const Users = (props) => {
+  const { followThunkCreator, unFollowThunkCreator } = props;
+
+  const users = useSelector(usersSelectors.getUsers);
+  const isFollowingProgress = useSelector(usersSelectors.getIsFollowingProgress);
+  const totalCount = useSelector(usersSelectors.getTotalCount);
+  const pageSize = useSelector(usersSelectors.getPageSize);
+  const currentPage = useSelector(usersSelectors.getCurrentPage);
+  const filter = useSelector(usersSelectors.getFilter);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUsersThunkCreator(currentPage, pageSize, filter));
+  }, []);
+
+  const onClickCurrentPage = (currentPage) => {
+    dispatch(getUsersThunkCreator(currentPage, pageSize, filter));
+  }
+
+  const onFilterChanged = (filter) => {
+    dispatch(getUsersThunkCreator(1, pageSize, filter));
+  }
 
   return (
     <div>
-      <Paginator totalCount={totalCount} pageSize={pageSize} onClickCurrentPage={onClickCurrentPage} />
+      <UserSearchForm onFilterChanged={onFilterChanged} />
+
+      <Paginator currentPage={currentPage} totalCount={totalCount} pageSize={pageSize} onClickCurrentPage={onClickCurrentPage} />
+
       {users.map((user, id) =>
         <div key={id.toString()}>
           <div>
@@ -49,5 +77,3 @@ const Users = (props) => {
     </div>
   );
 };
-
-export default Users;

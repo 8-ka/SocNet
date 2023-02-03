@@ -5,6 +5,21 @@ import { Field, reduxForm } from "redux-form";
 import { authReducers } from "../../data/auth_container";
 import './styles.css'
 
+// type TProps = {
+//   setLogIn?: any,
+//   isAuth?: boolean,
+//   captchaUrl?: string | null,
+//   handleSubmit?: (email: string, password: string, remember: boolean, captcha: string) => void,
+//   error?: string,
+// }
+
+// type TFormData = {
+//   email?: string,
+//   password?: string,
+//   remember?: boolean,
+//   captcha?: string,
+// }
+
 const LoginPage = (props) => {
   const { setLogIn, isAuth, captchaUrl } = props;
 

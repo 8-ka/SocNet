@@ -60,13 +60,13 @@ export const profilePageReducer = (state: InitialStateType = initialStateProfile
   }
 }
 
-export const getUserProfileThunkCreator = (userId: string) => (dispatch: any) => {
+export const getUserProfileThunkCreator = (userId: number) => (dispatch: any) => {
   profileAPI.getProfile(userId)
     .then(response =>
       dispatch(profileActions.setUserProfile(response.data)));
 }
 
-export const getUserStatusThunkCreator = (userId: string) => (dispatch: any) => {
+export const getUserStatusThunkCreator = (userId: number) => (dispatch: any) => {
   profileAPI.getStatus(userId)
     .then(response =>
       dispatch(profileActions.setUserStatus(response.data)));

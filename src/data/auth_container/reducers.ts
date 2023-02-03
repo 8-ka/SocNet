@@ -1,3 +1,4 @@
+import { resultCodeEnum } from './../../api/authAPI';
 import { authActions } from ".";
 import { authAPI, securityAPI } from "../../api";
 import { ActionTypes } from "./actions";
@@ -53,7 +54,7 @@ export const setLogInThunkCreator = (email: string, password: string, remember: 
       if (!response.data.resultCode) {
         dispatch(getAuthMeThunkCreator());
       } else {
-        if (response.data.resultCode === 10) {
+        if (response.data.resultCode === resultCodeEnum.captchaIsReq) {
           dispatch(getCaptchaUrlThunkCreator());
         }
         let message = response.data.messages[0] || 'Something went wrong';

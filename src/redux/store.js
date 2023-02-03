@@ -4,7 +4,7 @@ import { reducer as formReducer } from "redux-form";
 import { authReducers } from "../data/auth_container/index.ts";
 import { messagesReducers } from "../data/messages_container/index.ts";
 import { profileReducers } from "../data/profile_container/index.ts";
-import { usersReducers } from "../data/users_container/index.js";
+import { usersReducers } from "../data/users_container/index.ts";
 import { appReducers } from "../data/app_container/index.ts";
 
 const reducersRedux = combineReducers({

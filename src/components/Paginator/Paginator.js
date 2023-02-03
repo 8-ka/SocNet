@@ -1,5 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import './styles.css';
+
+// type TProps = {
+//   totalCount: number,
+//   pageSize: number,
+//   portionSize?: number,
+//   onClickCurrentPage: (page: number) => void,
+// }
 
 const Paginator = (props) => {
   const { totalCount, pageSize, onClickCurrentPage, portionSize = 20 } = props;

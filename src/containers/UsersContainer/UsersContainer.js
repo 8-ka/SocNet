@@ -1,48 +1,26 @@
-import React, { PureComponent } from "react";
-import { connect } from "react-redux";
+import React from "react";
+import { connect, useSelector } from "react-redux";
 import { bindActionCreators, compose } from "redux";
-import Users from "../../components/Users/Users";
+import { Users } from "../../components/Users/Users";
 import { usersActions, usersReducers, usersSelectors } from "../../data/users_container";
 import Loader from "../../components/Loader/Loader";
 import { withAuthRedirect } from "../../hoc/withAuthRedirect/withAuthRedirect";
 
-class UsersContainer extends PureComponent {
-  componentDidMount() {
-    this.props.getUsersThunkCreator(this.props.currentPage, this.props.pageSize);
-  }
+const UserPage = (props) => {
+  const { followThunkCreator, unFollowThunkCreator } = props;
+  const isFetching = useSelector(usersSelectors.getIsFetching);
 
-  onClickCurrentPage = (currentPage) => {
-    this.props.getUsersThunkCreator(currentPage, this.props.pageSize)
-  }
-
-  render() {
-    return (
-      <>
-        {this.props.isFetching && <Loader />}
+  return (
+    <>
+        <h2>{'Users'}</h2>
+        {isFetching && <Loader />}
         <Users
-          totalCount={this.props.totalCount}
-          users={this.props.users}
-          pageSize={this.props.pageSize}
-          onClickCurrentPage={this.onClickCurrentPage}
-          isFollowingProgress={this.props.isFollowingProgress}
-          followThunkCreator={this.props.followThunkCreator}
-          unFollowThunkCreator={this.props.unFollowThunkCreator}
+          followThunkCreator={followThunkCreator}
+          unFollowThunkCreator={unFollowThunkCreator}
         />
       </>
-    );
-  }
+  )
 }
-
-const mapStateToProps = (state) => {
-  return {
-    users: usersSelectors.getUsers(state),
-    pageSize: usersSelectors.getPageSize(state),
-    totalCount: usersSelectors.getTotalCount(state),
-    currentPage: usersSelectors.getCurrentPage(state),
-    isFetching: usersSelectors.getIsFetching(state),
-    isFollowingProgress: usersSelectors.getIsFollowingProgress(state),
-  }
-};
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
@@ -51,7 +29,6 @@ const mapDispatchToProps = (dispatch) =>
       setCurrentPage: usersActions.setCurrentPage,
       setTotalCount: usersActions.setTotalCount,
       setIsFetching: usersActions.setIsFetching,
-      getUsersThunkCreator: usersReducers.getUsersThunkCreator,
       followThunkCreator: usersReducers.followThunkCreator,
       unFollowThunkCreator: usersReducers.unFollowThunkCreator,
     },
@@ -60,5 +37,5 @@ const mapDispatchToProps = (dispatch) =>
 
 export default compose(
   withAuthRedirect,
-  connect(mapStateToProps, mapDispatchToProps),
-)(UsersContainer)
+  connect(null, mapDispatchToProps),
+)(UserPage)
